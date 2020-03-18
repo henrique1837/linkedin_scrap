@@ -42,7 +42,7 @@ experience = []
 education = []
 
 
-for i in range(50,60):
+for i in range(len(df.link)):
 
     url_user = df.link[i]
     driver.get(url_user)
@@ -87,18 +87,18 @@ for i in range(50,60):
         items = soup.find(attrs={"id":"experience-section"}).findAll("li")
         exp = []
         for j in range(len(items)):
-            title = items[j].find("div",attrs={"class":"pv-entity__summary-info-v2"}).findAll("span")[1]
+            title = items[j].find("p",attrs={"class":"pv-entity__secondary-title"})
             if(title != None):
                 title = title.text
-            date_range = items[j].find("h4",attrs={"class":"pv-entity__date-range"}).findAll("span")[1]
+            date_range = items[j].find("h4",attrs={"class":"pv-entity__date-range"})
             if(date_range != None):
-                date_range = date_range.text
+                date_range = date_range.findAll("span")[1].text
             duration = items[j].find("span",attrs={"class":"pv-entity__bullet-item-v2"})
             if(duration != None):
                 duration = duration.text
-            location = items[j].find("h4",attrs={"class":"pv-entity__location"}).findAll("span")[1]
+            location = items[j].find("h4",attrs={"class":"pv-entity__location"})
             if(location != None):
-                location = location.text
+                location = location.findAll("span")[1].text
             description = items[j].find("p",attrs={"class":"pv-entity__description"})
             if(description != None):
                 description = description.text
@@ -121,15 +121,15 @@ for i in range(50,60):
         descript = items[j].find("div",attrs={"class":"pv-entity__extra-details"})
         if(descript != None):
             descript = descript.text
-        course = items[j].find("p",attrs={"class":"pv-entity__fos"}).findAll("span")[1]
+        course = items[j].find("p",attrs={"class":"pv-entity__fos"})
         if(course != None):
-            course = course.text
-        degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"}).findAll("span")[1]
+            course = course.findAll("span")[1].text
+        degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"})
         if(degree != None):
-            degree = degree.text
-        data_range = items[j].find("p",attrs={"class":"pv-entity__dates"}).findAll("span")[1]
+            degree = degree.findAll("span")[1].text
+        data_range = items[j].find("p",attrs={"class":"pv-entity__dates"})
         if(data_range != None):
-            data_range = data_range.text        
+            data_range = data_range.findAll("span")[1].text        
         for j in range(len(items)):
             edu.append({
                 "shcool": school,
@@ -167,3 +167,23 @@ df_final = pd.DataFrame({
             
             
 df_final.to_json(CSV_FILENAME_COMPLETE)
+
+
+
+
+import json
+json_arr = []
+for i in range(len(df_final.link)):
+    json_arr.append({
+            "link": df_final.link[i],
+            "name": df_final.name[i],
+            "ocupation": df_final.ocupation[i],
+            "localization": df_final.localization[i],
+            "totalConnections": df_final.totalConnections[i],
+            "about": df_final.about[i],
+            "experience": df_final.experience[i],
+            "education": df_final.education[i]
+    })
+
+with open('complete_arr.json', 'w') as f:
+    json.dump(json_arr, f)
