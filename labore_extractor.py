@@ -42,14 +42,13 @@ experience = []
 education = []
 
 
-for i in range(len(df.link)):
+for i in range(50,60):
 
     url_user = df.link[i]
     driver.get(url_user)
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
-    time.sleep(5)
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(2)
+    for j in range(10,1,-1):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight/"+str(j)+");")
+        time.sleep(0.4)
     source = driver.page_source
     soup = BeautifulSoup(source,"lxml")
     user_resume = soup.find(attrs={"class":"pv-top-card"})
@@ -88,12 +87,27 @@ for i in range(len(df.link)):
         items = soup.find(attrs={"id":"experience-section"}).findAll("li")
         exp = []
         for j in range(len(items)):
+            title = items[j].find("div",attrs={"class":"pv-entity__summary-info-v2"}).findAll("span")[1]
+            if(title != None):
+                title = title.text
+            date_range = items[j].find("h4",attrs={"class":"pv-entity__date-range"}).findAll("span")[1]
+            if(date_range != None):
+                date_range = date_range.text
+            duration = items[j].find("span",attrs={"class":"pv-entity__bullet-item-v2"})
+            if(duration != None):
+                duration = duration.text
+            location = items[j].find("h4",attrs={"class":"pv-entity__location"}).findAll("span")[1]
+            if(location != None):
+                location = location.text
+            description = items[j].find("p",attrs={"class":"pv-entity__description"})
+            if(description != None):
+                description = description.text
             exp.append({
-                "tittle": items[j].find("div",attrs={"class":"pv-entity__summary-info-v2"}).findAll("span")[1].text,
-                "date_range": items[j].find("h4",attrs={"class":"pv-entity__date-range"}).findAll("span")[1].text,
-                "duration": items[j].find("span",attrs={"class":"pv-entity__bullet-item-v2"}).text,
-                "location": items[j].find("h4",attrs={"class":"pv-entity__location"}).findAll("span")[1].text,
-                "description": items[j].find("p",attrs={"class":"pv-entity__description"}).text
+                "tittle": title ,
+                "date_range": date_range,
+                "duration": duration,
+                "location": location,
+                "description": description
             })
         experience.append(exp)
     except:
@@ -101,16 +115,27 @@ for i in range(len(df.link)):
     try:
         items = soup.find(attrs={"id":"education-section"}).findAll("li")
         edu = []
+        school = items[j].find("h3",attrs={"class":"pv-entity__school-name"})
+        if(school != None):
+            school = school.text
         descript = items[j].find("div",attrs={"class":"pv-entity__extra-details"})
-        if(descript == None):
-            descript = None
-        else:
+        if(descript != None):
             descript = descript.text
+        course = items[j].find("p",attrs={"class":"pv-entity__fos"}).findAll("span")[1]
+        if(course != None):
+            course = course.text
+        degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"}).findAll("span")[1]
+        if(degree != None):
+            degree = degree.text
+        data_range = items[j].find("p",attrs={"class":"pv-entity__dates"}).findAll("span")[1]
+        if(data_range != None):
+            data_range = data_range.text        
         for j in range(len(items)):
             edu.append({
-                "shcool": items[j].find("h3",attrs={"class":"pv-entity__school-name"}).text,
-                "course": items[j].find("p",attrs={"class":"pv-entity__secondary-title"}).findAll("span")[1].text,
-                "date_range": items[j].find("p",attrs={"class":"pv-entity__dates"}).findAll("span")[1].text,
+                "shcool": school,
+                "course": course,
+                "degree": degree,
+                "date_range": date_range,
                 "description": descript      
             })
         education.append(edu)
@@ -120,11 +145,6 @@ for i in range(len(df.link)):
         print("Cleaning selenium memory")
         driver.close()
         time.sleep(5)
-        #webdriver.DesiredCapabilities.FIREFOX['proxy']={
-        #    "httpProxy":proxies[j],
-        #    "sslProxy":proxies[j],
-        #    "proxyType":"MANUAL"
-        #}
         j = j + 1
         if(j >= len(proxies)):
             j = 0
