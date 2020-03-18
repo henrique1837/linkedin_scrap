@@ -115,28 +115,28 @@ for i in range(len(df.link)):
     try:
         items = soup.find(attrs={"id":"education-section"}).findAll("li")
         edu = []
-        school = items[j].find("h3",attrs={"class":"pv-entity__school-name"})
-        if(school != None):
-            school = school.text
-        descript = items[j].find("div",attrs={"class":"pv-entity__extra-details"})
-        if(descript != None):
-            descript = descript.text
-        course = items[j].find("p",attrs={"class":"pv-entity__fos"})
-        if(course != None):
-            course = course.findAll("span")[1].text
-        degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"})
-        if(degree != None):
-            degree = degree.findAll("span")[1].text
-        data_range = items[j].find("p",attrs={"class":"pv-entity__dates"})
-        if(data_range != None):
-            data_range = data_range.findAll("span")[1].text        
         for j in range(len(items)):
+            school = items[j].find("h3",attrs={"class":"pv-entity__school-name"})
+            if(school != None):
+                school = school.text
+            descript = items[j].find("div",attrs={"class":"pv-entity__extra-details"})
+            if(descript != None):
+                descript = descript.text
+            course = items[j].find("p",attrs={"class":"pv-entity__fos"})
+            if(course != None):
+                course = course.findAll("span")[1].text
+            degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"})
+            if(degree != None):
+                degree = degree.findAll("span")[1].text
+            data_range = items[j].find("p",attrs={"class":"pv-entity__dates"})
+            if(data_range != None):
+                data_range = data_range.findAll("span")[1].text        
             edu.append({
-                "shcool": school,
-                "course": course,
-                "degree": degree,
-                "date_range": date_range,
-                "description": descript      
+                    "shcool": school,
+                    "course": course,
+                    "degree": degree,
+                    "date_range": date_range,
+                    "description": descript      
             })
         education.append(edu)
     except:
@@ -176,13 +176,15 @@ json_arr = []
 for i in range(len(df_final.link)):
     json_arr.append({
             "link": df_final.link[i],
-            "name": df_final.name[i],
-            "ocupation": df_final.ocupation[i],
-            "localization": df_final.localization[i],
-            "totalConnections": df_final.totalConnections[i],
-            "about": df_final.about[i],
-            "experience": df_final.experience[i],
-            "education": df_final.education[i]
+             "content" :{
+                "name": df_final.name[i],
+                "ocupation": df_final.ocupation[i],
+                "localization": df_final.localization[i],
+                "totalConnections": df_final.totalConnections[i],
+                "about": df_final.about[i],
+                "experience": df_final.experience[i],
+                "education": df_final.education[i]  
+            }
     })
 
 with open('complete_arr.json', 'w') as f:
