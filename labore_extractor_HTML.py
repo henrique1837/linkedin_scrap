@@ -46,3 +46,8 @@ for i in range(n,n+total_per_time):
     with open("./htmls/"+str(n+i)+"_"+url_user.split("/")[-1]+".html", "w") as text_file:
         text_file.write(source)
     
+    
+
+
+
+driver.close()
