@@ -20,18 +20,6 @@ os.chdir(path)
 from aux_var import *
 
 
-
-
-df = pd.read_csv(CSV_FILENAME)
-
-
-## Get users info 
-
-
-driver = webdriver.Firefox(executable_path=SELENIUM_PATH)
-
-login(driver)
-
 link = []
 name = []
 ocupation = []
@@ -41,15 +29,12 @@ about = []
 experience = []
 education = []
 
+html_files = os.listdir("./htmls")
 
-for i in range(len(df.link)):
-
-    url_user = df.link[i]
-    driver.get(url_user)
-    for j in range(10,1,-1):
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight/"+str(j)+");")
-        time.sleep(0.4)
-    source = driver.page_source
+for i in range(len(html_files)):
+    print("Getting data from "+str(i+1)+" of "+str(len(html_files)))
+    file = open("./htmls/"+html_files[i], "r") 
+    source = file.read()
     soup = BeautifulSoup(source,"lxml")
     user_resume = soup.find(attrs={"class":"pv-top-card"})
     if(user_resume == None):
@@ -141,17 +126,7 @@ for i in range(len(df.link)):
         education.append(edu)
     except:
         education.append(None)
-    if(i%20 == 0 and i > 0):
-        print("Cleaning selenium memory")
-        driver.close()
-        time.sleep(5)
-        j = j + 1
-        if(j >= len(proxies)):
-            j = 0
-        driver = webdriver.Firefox(executable_path=SELENIUM_PATH)
-        login(driver)
     
-    print("Getting data from "+str(i+1)+" of "+str(len(df.link)))
     
     
 df_final = pd.DataFrame({
@@ -167,6 +142,8 @@ df_final = pd.DataFrame({
             
             
 df_final.to_json(CSV_FILENAME_COMPLETE)
+
+
 
 
 

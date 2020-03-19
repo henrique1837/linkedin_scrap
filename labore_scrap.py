@@ -27,7 +27,7 @@ profile.set_preference("dom.webnotifications.enabled", False)
 
 driver = webdriver.Firefox(executable_path=SELENIUM_PATH)
 
-login(driver)
+login(driver,"EMAIL","SENHA")
 
 driver.get(url)
 

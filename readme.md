@@ -3,19 +3,20 @@
 Separado em 3 arquivos
 
  - labore_scrap: utilizado para pegar links e nomes de todos os membros do grupo, gera um csv
- - labore_extractor: utilizado para extrair dados de cada membro do grupo, gera um json
- - aux_var: definir diretorio do driver do selenium (geckodriver - firefox), localizacao e nome do arquivo csv gerado no script 'labore_scrap', localizacao e nome do arquivo json gerado no script 'labore_extractor'
+ - labore_extractor_HTML: extrai paginas HTMLS de cada link e salva no diretorio './htmls'
+ - labore_extractor: utilizado para extrair dados de cada membro do grupo a partir dos HTMLs extraidos, gera 2 jsons: um a partir de dataframe (complete.json) e outro em formato mais facil de ver em [http://jsonprettify.com/](http://jsonprettify.com/) (complete_1.json)
+ - aux_var: definir diretorio do driver do selenium (geckodriver - firefox), localizacao e nome do arquivo csv gerado no script 'labore_scrap', localizacao e nome do arquivo json gerado no script 'labore_extractor', cria diretorios necessarios caso nao existam ('./htmls')
 
 
-  Necessario Firefox e o driver do selenium [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases)
+  Necessario Firefox e o driver do selenium [https://github.com/mozilla/geckodriver/releases](https://github.com/mozilla/geckodriver/releases) (ou modificar para Chrome)
+
+  Necessario modificar variaveis em 'aux_var.py' e 'login(driver,"EMAIL","SENHA")' nos arquivos 'labore_scrap.py' e 'labore_extractor_HTML.py'
 
   OBS:
-    - 'labore_scrap' poderia apenas abrir a pagina toda (clicar nos botoes), salvar o HTML para depois ser tratado por um terceiro script que gera o JSON que esta sendo gerado nesse, isso ajudara a implementar restart em caso de erro
 
+  - Formato do json (complete_1.json) exportado:
 
-    - Formato do json exportado:
-
-    ```{js}
+  ```{js}
       [{
         id: uri do usuario
         content {
@@ -41,4 +42,4 @@ Separado em 3 arquivos
         }
         ...
         }]
-    ```
+  ```

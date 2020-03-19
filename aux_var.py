@@ -13,20 +13,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 
-def getProxies():
-    url = 'https://free-proxy-list.net/'
-    res = requests.get(url)
-    soup = BeautifulSoup(res.text,"lxml")
-    table = soup.find("table")
-    proxies = []
-    tr = table.findAll("tr")
-    for i in range(1,len(tr)-1):
-        ip = tr[i].findAll("td")[0].text
-        port = tr[i].findAll("td")[1].text
-        proxies.append(ip+":"+port)
-    return proxies
-
-def login(driver):
+def login(driver,email,password):
     driver.get("https://www.linkedin.com/login?fromSignIn=true&trk=guest_homepage-basic_nav-header-signin")
     input_email = driver.find_element_by_id("username")
     input_email.click()
@@ -40,24 +27,16 @@ def login(driver):
     button_login = div_login.find_element_by_tag_name("button")
     button_login.click()
 
-
-## Inicio ##
-
-proxies = getProxies()
-
+path = "/home/henrique/Documents/scraps/labore_scrap/"
 
 SELENIUM_PATH = "/home/henrique/Documents/selenium/geckodriver"
-CSV_FILENAME = "/home/henrique/Documents/scraps/labore_scrap/sample.csv"
-CSV_FILENAME_COMPLETE = "/home/henrique/Documents/labore_scrap/complete.json"
+CSV_FILENAME = "sample.csv"
+CSV_FILENAME_COMPLETE = "complete.json"
 
 
-#webdriver.DesiredCapabilities.FIREFOX['proxy']={
-#            "httpProxy":proxies[0],
-#            "sslProxy":proxies[0],
-#            "proxyType":"MANUAL"
-#}
+if not os.path.exists(path+'htmls'):
+    os.makedirs(path+'htmls')
 
 
 
-email = "LOGIN DA CONTA"
-password = "SENHA DA CONTA"
+
