@@ -19,7 +19,7 @@ os.chdir(path)
 
 from aux_var import *
 
-
+df = pd.read_csv(CSV_FILENAME)
 link = []
 name = []
 ocupation = []
@@ -30,7 +30,7 @@ experience = []
 education = []
 
 html_files = os.listdir("./htmls")
-
+html_files.sort()
 for i in range(len(html_files)):
     print("Getting data from "+str(i+1)+" of "+str(len(html_files)))
     file = open("./htmls/"+html_files[i], "r") 
@@ -113,9 +113,9 @@ for i in range(len(html_files)):
             degree = items[j].find("p",attrs={"class":"pv-entity__degree-name"})
             if(degree != None):
                 degree = degree.findAll("span")[1].text
-            data_range = items[j].find("p",attrs={"class":"pv-entity__dates"})
-            if(data_range != None):
-                data_range = data_range.findAll("span")[1].text        
+            date_range = items[j].find("p",attrs={"class":"pv-entity__dates"})
+            if(date_range != None):
+                date_range = date_range.findAll("span")[1].text        
             edu.append({
                     "shcool": school,
                     "course": course,
