@@ -17,6 +17,7 @@ import time
 path = "/home/henrique/Documents/scraps/labore_scrap/"
 os.chdir(path)
 
+
 from aux_var import *
 
 df = pd.read_csv(CSV_FILENAME)
@@ -30,7 +31,6 @@ experience = []
 education = []
 
 html_files = os.listdir("./htmls")
-html_files.sort()
 for i in range(len(html_files)):
     print("Getting data from "+str(i+1)+" of "+str(len(html_files)))
     file = open("./htmls/"+html_files[i], "r") 
@@ -50,8 +50,8 @@ for i in range(len(html_files)):
             })
         df_final.to_json(CSV_FILENAME_COMPLETE)
         i = len(df.link)+1
-    link.append(df.link[i])
-    name.append(df.name[i])
+    link.append("https://linkedin.com"+user_resume.find("ul",attrs={"class":"pv-top-card--list-bullet"}).findAll("li")[-1].a['href'].split("/detail")[0])
+    name.append(soup.find("ul",attrs={"class":"pv-top-card--list"}).findAll("li")[0].text)
     try:
         ocupation.append(user_resume.find("h2",attrs={"class":"mt1"}).text)
     except:
