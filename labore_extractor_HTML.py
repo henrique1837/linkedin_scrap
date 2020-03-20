@@ -36,7 +36,7 @@ total_per_time = 20
 
 for i in range(n,n+total_per_time):
     ## Change to df.link[i] if link does not ends with '/'
-    url_user = df.link[n][:-1]
+    url_user = df.link[n+i][:-1]
     driver.get(url_user)
     
     for j in range(10,1,-1):
@@ -60,6 +60,7 @@ for i in range(n,n+total_per_time):
     ## Save
     with open("./htmls/"+str(n+i)+"_"+url_user.split("/")[-1]+".html", "w") as text_file:
         text_file.write(source)
+    
     
     
 
