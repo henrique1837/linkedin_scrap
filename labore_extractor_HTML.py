@@ -36,11 +36,26 @@ total_per_time = 20
 
 for i in range(n,n+total_per_time):
     ## Change to df.link[i] if link does not ends with '/'
-    url_user = df.link[i][:-1]
+    url_user = df.link[n][:-1]
     driver.get(url_user)
+    
     for j in range(10,1,-1):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight/"+str(j)+");")
         time.sleep(0.4)
+        
+    try:
+        a_show = driver.find_element_by_id("line-clamp-show-more-button")
+        driver.execute_script("window.scrollTo(0, "+str(a_show.location['y']-300)+");")
+        a_show.click()
+        time.sleep(0.5)
+    except:
+        a_show = None
+        
+    show_more = driver.find_elements_by_class_name("pv-profile-section__see-more-inline")
+    for button in show_more:
+        driver.execute_script("window.scrollTo(0, "+str(button.location['y']-300)+");")
+        button.click()
+        time.sleep(0.5)
     source = driver.page_source
     ## Save
     with open("./htmls/"+str(n+i)+"_"+url_user.split("/")[-1]+".html", "w") as text_file:
