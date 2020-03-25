@@ -27,11 +27,11 @@ def login(driver,email,password):
     button_login = div_login.find_element_by_tag_name("button")
     button_login.click()
 
-path = "/home/henrique/Documents/scraps/labore_scrap/"
+path = "./"
 
-SELENIUM_PATH = "/home/henrique/Documents/selenium/geckodriver"
-CSV_FILENAME = "sample.csv"
-CSV_FILENAME_COMPLETE = "complete.json"
+SELENIUM_PATH = "./geckodriver.exe"
+CSV_PATHNAME = "./csv/"
+CSV_FILENAME_COMPLETE = "./complete.json"
 
 
 if not os.path.exists(path+'htmls'):
