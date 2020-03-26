@@ -18,7 +18,7 @@ path = "./"
 os.chdir(path)
 
 from aux_var import *
-from links.links_UNIRIO import *
+from login_string import *
 
 url_base = "https://www.linkedin.com"
 
