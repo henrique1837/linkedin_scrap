@@ -34,6 +34,10 @@ CSV_PATHNAME = "./csv/"
 CSV_FILENAME_COMPLETE = "./complete.json"
 
 
+email = "EMAIL"
+senha = "SENHA"
+
+
 if not os.path.exists(path+'htmls'):
     os.makedirs(path+'htmls')
 

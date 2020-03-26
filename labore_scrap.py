@@ -22,9 +22,6 @@ from links.links_UNIRIO import *
 
 url_base = "https://www.linkedin.com"
 
-email = "EMAIL"
-senha = "SENHA"
-
 profile = webdriver.FirefoxProfile()
 profile.set_preference("javascript.enabled", False)
 profile.set_preference("dom.webnotifications.enabled", False)
@@ -32,7 +29,7 @@ profile.set_preference("dom.webnotifications.enabled", False)
 driver = webdriver.Firefox(executable_path=SELENIUM_PATH)
 
 login(driver,email,senha)
-# time.sleep(60)
+time.sleep(60)
 
 ## Scrap ##
 
